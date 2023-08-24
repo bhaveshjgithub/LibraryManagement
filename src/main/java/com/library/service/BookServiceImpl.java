@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.library.entity.Book;
+import com.library.exception.ErrorCode;
+import com.library.exception.ResourceNotFoundException;
 import com.library.repo.BookRepository;
 @Service
 public class BookServiceImpl implements BookService{
@@ -33,6 +35,9 @@ public class BookServiceImpl implements BookService{
 				book2.setAuthor(book.getAuthor());
 				book2.setYear(book.getYear());
 				bookRepository.save(book2);
+			}else {
+				throw new ResourceNotFoundException(ErrorCode.INVALID_ID.getCode(), ErrorCode.INVALID_ID.getMessage());
+				
 			}
 	}
 	@Override
@@ -40,4 +45,22 @@ public class BookServiceImpl implements BookService{
 		bookRepository.deleteById(id);
 				
 	}
+
+	/*
+	 * @Override public Book getBookData(Long id) {
+	 * 
+	 * return bookRepository.getBookAndUser(id); }
+	 */
+	@Override
+	public Optional<Book> getId(Long id) {
+		return bookRepository.findById(id);
+		
+	}
+	@Override
+	public Book getBookData(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }

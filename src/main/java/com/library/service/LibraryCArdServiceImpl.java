@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.library.entity.Book;
 import com.library.entity.LibraryCard;
+import com.library.entity.User;
+import com.library.exception.ErrorCode;
+import com.library.exception.ResourceNotFoundException;
 import com.library.repo.BookRepository;
 import com.library.repo.LibraryRepository;
 @Service
@@ -35,7 +38,10 @@ public class LibraryCArdServiceImpl implements LibraryCardService {
 		if(libData.isPresent()) {
 			LibraryCard card2 = libData.get();
 			card2.setBookDetails(card.getBookDetails());
-			libraryRepository.save(card2);
+			libraryRepository.save(card2);	
+		}else {
+			throw new ResourceNotFoundException(ErrorCode.DATA_NOT_FOUND.getCode(), ErrorCode.DATA_NOT_FOUND.getMessage());
+			
 		}
 	}
 
