@@ -3,6 +3,8 @@ package com.library.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,22 +24,26 @@ public class LibearyCardController {
 	private LibraryCardService cardService;
 	
 	@GetMapping("/getall")
-	public List<LibraryCard> getAllCards(){
-		return cardService.getall();
+	public ResponseEntity<List<LibraryCard>> getAllCards(){
+		return new ResponseEntity<List<LibraryCard>>( cardService.getall(),HttpStatus.OK);
 		
 	}
 	@PostMapping("/create-card")
-	public void createCard(@RequestBody LibraryCard card) {
+	public ResponseEntity<Void>createCard(@RequestBody LibraryCard card) {
 		cardService.create(card);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	@PutMapping("/update-card/{id}")
-	public void updateCard(@PathVariable("id")Long id,@RequestBody LibraryCard card) {
+	public ResponseEntity<Void> updateCard(@PathVariable("id")Long id,@RequestBody LibraryCard card) {
 		cardService.update(id, card);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+		
 	}
 	
 	@DeleteMapping("/delete-card/{id}")  
-	public void deleteBook(@PathVariable("id") Long id) {
+	public ResponseEntity<Void> deleteBook(@PathVariable("id") Long id) {
 	    cardService.delete(id);
+	    return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 }
